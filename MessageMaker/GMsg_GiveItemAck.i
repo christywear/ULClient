@@ -30,3 +30,22 @@ INLINE void GMsg_GiveItemAck::SetItemHeader(const LmItemHdr& itemheader)
 {
   data_.itemheader = itemheader;
 }
+INLINE void GMsg_GiveItemAck::SetTarget(lyra_id_t target) 
+{
+  data_.target = target;
+}
+
+INLINE lyra_id_t GMsg_GiveItemAck::Target() const
+{
+  return data_.target;
+}
+
+INLINE void GMsg_GiveItemAck::SetGiverID(lyra_id_t giver_id)
+{
+    data_.giver_id = giver_id;
+}
+
+INLINE lyra_id_t GMsg_GiveItemAck::GiverID() const
+{
+    return data_.giver_id;
+}

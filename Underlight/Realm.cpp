@@ -188,6 +188,7 @@ bool talkdlg = false; // true when talk dialog box is up
 bool pmare_talkdlg = false; // true when pmare talk dialog box is up
 bool helpdlg = false; // true when help dialog box is up
 bool creditsdlg = false; // true when credits dialog box is up
+bool Player_Vault_DLG = false; // playervault testing ~christy
 bool metadlg = false; // true when meta dialog box is up
 bool itemdlg = false; // true when item dialog box is up
 bool gm_itemhelpdlg = false; // true when gm item creator help dialog is up

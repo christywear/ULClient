@@ -80,6 +80,7 @@
 #define IDS_FLIGHT                      210
 #define IDS_FLIGHT_ON                   211
 #define IDS_FLIGHT_OFF                  212
+#define IDD_Player_Vault                219
 #define IDS_PROPERTIES                  1000
 #define IDC_USERNAME                    1004
 #define IDC_EMAIL                       1005
@@ -421,6 +422,7 @@
 #define IDS_ONCE_HIDDEN_ALWAYS_HIDDEN   1446
 #define IDC_LIST1                       1446
 #define IDC_WHISPCOLORLBL               1447
+#define IDC_SCROLLBAR1                  1448
 #define IDC_OK                          1800
 #define IDC_CANCEL                      1801
 #define IDC_FIREWALL_FAQ                1801
@@ -521,6 +523,8 @@
 #define IDC_GOTOOPTIONS                 1883
 #define IDC_RETURN                      1884
 #define IDC_ARMS                        1885
+#define IDC_EXIT2                       1885
+#define IDC_Player_Vault                1885
 #define IDC_BODY                        1886
 #define IDC_HAIR                        1887
 #define IDC_LEGS                        1888
@@ -3056,9 +3060,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        219
+#define _APS_NEXT_RESOURCE_VALUE        220
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1448
+#define _APS_NEXT_CONTROL_VALUE         1452
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

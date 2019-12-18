@@ -64,6 +64,7 @@ extern bool talkdlg;
 extern bool pmare_talkdlg;
 extern bool helpdlg;
 extern bool creditsdlg;
+extern bool Player_Vault_DLG; // christy shenanigans for player vault
 extern bool optiondlg;
 extern bool metadlg;
 extern bool itemdlg;
@@ -1193,6 +1194,83 @@ BOOL CALLBACK CreditsDlgProc(HWND hDlg, UINT Message, WPARAM wParam, LPARAM lPar
 
 }
 
+// ganked help proc for my vault shenanigans ~christy
+BOOL CALLBACK Player_Vault_DLG_Proc(HWND PVDLG, UINT Message, WPARAM wParam, LPARAM lParam)
+{
+	static HBITMAP Player_Vault_Background;
+	Player_Vault_Background = (HBITMAP)LoadImageW(NULL, L"C:\\Lyra\\prod\\coy.dib",
+		IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+
+	if (Player_Vault_Background == NULL) {
+		MessageBoxW(PVDLG, L"Failed to load image", L"Error", MB_OK);
+	}
+
+	if (HBRUSH brush = SetControlColors(PVDLG, Message, wParam, lParam))
+		return (LRESULT)brush;
+	switch (Message)
+	{
+
+	case WM_CREATE:
+		Player_Vault_Background = (HBITMAP)LoadImageW(NULL, L"C:\\Lyra\\prod\\coy.dib",
+			IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+		
+		if (Player_Vault_Background == NULL) {
+			MessageBoxW(PVDLG, L"Failed to load image", L"Error", MB_OK);
+		}
+		
+		break;
+	case WM_GETDLGCODE:
+		return DLGC_WANTMESSAGE;
+
+	case WM_DESTROY:
+		Player_Vault_DLG = false;
+		break;
+
+	case WM_INITDIALOG:
+		Player_Vault_DLG = true;
+		SetFocus(PVDLG);
+		SetWindowPos(PVDLG, TopMost(), cDD->DlgPosX(PVDLG), cDD->DlgPosY(PVDLG), 0, 0, SWP_NOSIZE);
+		CreateWindowsBitmap(IDD_Player_Vault);
+		return TRUE;
+
+	case WM_KEYUP:
+		switch (LOWORD(wParam))
+		{
+		case VK_ESCAPE:
+		case VK_RETURN:
+			PostMessage(PVDLG, WM_COMMAND, (WPARAM)IDC_OK, 0);
+			return (LRESULT)0;
+		};
+		break;
+
+	case WM_PAINT:
+	{
+		PAINTSTRUCT Paint;
+		BITMAP bm;
+		RECT r;
+		GetClientRect(PVDLG, &r);
+		GetObject(Player_Vault_Background, sizeof(BITMAP), &bm);
+		HDC dc = BeginPaint(PVDLG, &Paint);
+		BlitBitmap(dc, Player_Vault_Background, &r, NOSTRETCH);
+		EndPaint(PVDLG, &Paint);
+		break;
+	}
+	return 0;
+
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDC_OK:
+			DeleteObject(Player_Vault_Background);
+			DestroyWindow(PVDLG);
+			break;
+		}
+	}
+	return FALSE;
+
+}
+
 static void ExitCallback(void *value)
 {
   int i = *((int*)value);
@@ -1245,29 +1323,37 @@ BOOL CALLBACK MetaDlgProc(HWND hDlg, UINT Message, WPARAM wParam, LPARAM lParam)
 		case WM_COMMAND:
 			switch (LOWORD(wParam))
 			{
-				case IDC_GOTOHELP:
-					if (!helpdlg)
-					{
-						helpdlg = true;
-						CreateLyraDialog(hInstance, IDD_HELP,
-							cDD->Hwnd_Main(), (DLGPROC)HelpDlgProc);
-					}
-					break;
-				case IDC_GOTOOPTIONS:
-					if (!optiondlg)
-					{
-						optiondlg = true;
-						CreateLyraDialog(hInstance, IDD_OPTIONS,
-							cDD->Hwnd_Main(), (DLGPROC)OptionsDlgProc);
-					}
-					break;
+			case IDC_GOTOHELP:
+				if (!helpdlg)
+				{
+					helpdlg = true;
+					CreateLyraDialog(hInstance, IDD_HELP,
+						cDD->Hwnd_Main(), (DLGPROC)HelpDlgProc);
+				}
+				break;
+			case IDC_GOTOOPTIONS:
+				if (!optiondlg)
+				{
+					optiondlg = true;
+					CreateLyraDialog(hInstance, IDD_OPTIONS,
+						cDD->Hwnd_Main(), (DLGPROC)OptionsDlgProc);
+				}
+				break;
 
-				case IDC_GOTOCREDITS:
-					if (!creditsdlg)
+			case IDC_GOTOCREDITS:
+				if (!creditsdlg)
+				{
+					creditsdlg = true;
+					CreateLyraDialog(hInstance, IDD_CREDITS,
+						cDD->Hwnd_Main(), (DLGPROC)CreditsDlgProc);
+				}
+				break;
+			case IDC_Player_Vault: // christy fun~
+					if (!Player_Vault_DLG)
 					{
-						creditsdlg = true;
-						CreateLyraDialog(hInstance, IDD_CREDITS,
-							cDD->Hwnd_Main(), (DLGPROC)CreditsDlgProc);
+						Player_Vault_DLG = true;
+						CreateLyraDialog(hInstance, IDD_Player_Vault,
+							cDD->Hwnd_Main(), (DLGPROC)Player_Vault_DLG_Proc);
 					}
 					break;
 
